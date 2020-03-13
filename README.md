@@ -1,6 +1,6 @@
-# template-typescript-react-app
+# VRM Dance
 
-My template repository for simple web apps written in TypeScript.
+A VRM motion editor powered by [@pixiv/three-vrm](https://github.com/pixiv/three-vrm).
 
 ## Development
 
