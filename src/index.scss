@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+::placeholder {
+  color: gray;
+}
+
+.image {
+  width: 100px;
+}
+@media (min-resolution: 2dppx) {
+  .image {
+    width: 200px;
+  }
+}

@@ -1,0 +1,6 @@
+# logs
+*.log
+# dependencies
+node_modules/
+# output
+dist/
