@@ -41,6 +41,7 @@
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-resize-detector": "4.2.1",
+    "react-rnd": "10.1.6",
     "react-split-pane": "0.1.89",
     "three": "0.114.0"
   },
