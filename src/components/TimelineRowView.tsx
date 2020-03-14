@@ -1,9 +1,8 @@
 import * as React from 'react';
+import { TIMELINE_SIDE_COLUMN_WIDTH } from '../constants';
 import './TimelineRowView.scss';
 
 interface TimelineRowViewProps {
-  width: number;
-  firstColumnWidth: number;
   humanoidBoneName: string;
   oddRow?: boolean;
 }
@@ -13,7 +12,7 @@ export const TimelineRowView: React.FC<TimelineRowViewProps> = props => {
     <div className="timeline-row">
       <div
         className={'timeline-row__first-column' + (props.oddRow ? '--odd' : '')}
-        style={{ width: props.firstColumnWidth }}
+        style={{ width: TIMELINE_SIDE_COLUMN_WIDTH }}
       >
         {props.humanoidBoneName}
       </div>

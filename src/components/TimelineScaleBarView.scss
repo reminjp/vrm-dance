@@ -1,0 +1,18 @@
+@import '../variables';
+
+.timeline-scale-bar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &__bar {
+    box-sizing: border-box;
+    border-left: $size-border solid $color-text;
+    border-right: $size-border solid $color-text;
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: lighten($color-primary, 10%);
+    }
+  }
+}

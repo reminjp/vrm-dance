@@ -1,20 +1,23 @@
 import * as React from 'react';
 import {
-  TIMELINE_FIRST_COLUMN_WIDTH,
+  TIMELINE_HEADER_HEIGHT,
   TIMELINE_LEFT_MARGIN,
   TIMELINE_RIGHT_MARGIN,
+  TIMELINE_SIDE_COLUMN_WIDTH,
 } from '../constants';
 import { useEnvironment, useProject } from '../contexts';
 import './TimelineBackgroundView.scss';
 
-const PRIMARY_GRID_COLOR = 'rgba(255, 255, 255, 0.1)';
-const PRIMARY_TEXT_COLOR = '#f5f5f5';
+const CURSOR_LINE_COLOR = '#3273dc';
+const CURSOR_TEXT_COLOR = '#3273dc';
+const GRID_LINE_COLOR = 'rgba(255, 255, 255, 0.1)';
+const GRID_TEXT_COLOR = '#f5f5f5';
 
 export const TimelineBackgroundView: React.FC = () => {
   const environment = useEnvironment();
   const project = useProject();
 
-  const width = environment.windowWidth - TIMELINE_FIRST_COLUMN_WIDTH;
+  const width = environment.windowWidth - TIMELINE_SIDE_COLUMN_WIDTH;
   const height = environment.windowHeight;
 
   const grids = React.useMemo(() => {
@@ -37,7 +40,22 @@ export const TimelineBackgroundView: React.FC = () => {
       });
     }
     return a;
-  }, [width, project.timelineStartSec, project.timelineEndSec]);
+  }, [project.timelineStartSec, project.timelineEndSec, width]);
+
+  const cursorPx = React.useMemo(() => {
+    const widthSec = project.timelineEndSec - project.timelineStartSec;
+
+    return (
+      ((project.timelineCursorSec - project.timelineStartSec) / widthSec) *
+        (width - TIMELINE_LEFT_MARGIN - TIMELINE_RIGHT_MARGIN) +
+      TIMELINE_LEFT_MARGIN
+    );
+  }, [
+    project.timelineStartSec,
+    project.timelineEndSec,
+    project.timelineCursorSec,
+    width,
+  ]);
 
   return (
     <div className="timeline-background">
@@ -48,16 +66,32 @@ export const TimelineBackgroundView: React.FC = () => {
               className="timeline-background__grid--primary"
               x1={px}
               x2={px}
-              y1={0}
+              y1={TIMELINE_HEADER_HEIGHT - 24}
               y2={height}
-              stroke={PRIMARY_GRID_COLOR}
-              strokeWidth={1}
+              stroke={GRID_LINE_COLOR}
+              strokeWidth={2}
             />
-            <text x={px + 4} y={24} fill={PRIMARY_TEXT_COLOR}>
+            <text x={px} y={TIMELINE_HEADER_HEIGHT - 28} fill={GRID_TEXT_COLOR}>
               {sec}
             </text>
           </g>
         ))}
+        <line
+          className="timeline-background__grid--primary"
+          x1={cursorPx}
+          x2={cursorPx}
+          y1={TIMELINE_HEADER_HEIGHT}
+          y2={height}
+          stroke={CURSOR_LINE_COLOR}
+          strokeWidth={2}
+        />
+        <text
+          x={cursorPx}
+          y={TIMELINE_HEADER_HEIGHT - 6}
+          fill={CURSOR_TEXT_COLOR}
+        >
+          {project.timelineCursorSec.toFixed(3)}
+        </text>
       </svg>
     </div>
   );

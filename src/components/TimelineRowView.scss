@@ -3,11 +3,12 @@
 .timeline-row {
   display: flex;
   width: 100%;
+  user-select: none;
 
   %__first-column {
     box-sizing: border-box;
     flex: 0 0 auto;
-    padding: ($size-gap / 2) $size-gap;
+    padding: ($size-gap / 8) $size-gap;
   }
 
   &__first-column {

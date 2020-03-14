@@ -1,29 +1,28 @@
 import * as React from 'react';
+import ReactResizeDetector from 'react-resize-detector';
 import { Rnd } from 'react-rnd';
 import { useProject } from '../contexts';
-import './TimelineRangeView.scss';
+import './TimelineScaleBarView.scss';
 
-interface TimelineRangeViewProps {
-  width: number;
-  height: number;
-}
+export const TimelineScaleBarView: React.FC = () => {
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
 
-export const TimelineRangeView: React.FC<TimelineRangeViewProps> = props => {
   const project = useProject();
   const motionDurationSec = project.motionEndSec - project.motionStartSec;
   const timelineDurationSec = project.timelineEndSec - project.timelineStartSec;
-  const barX = (project.timelineStartSec / motionDurationSec) * props.width;
-  const barWidth = (timelineDurationSec / motionDurationSec) * props.width;
+  const barX = (project.timelineStartSec / motionDurationSec) * width;
+  const barWidth = (timelineDurationSec / motionDurationSec) * width;
 
   const handleResizeAndDrag = React.useCallback(
-    (x: number, width: number) => {
-      const nextTimelineStartSec = (x / props.width) * motionDurationSec;
-      const nextTimelineDurationSec = (width / props.width) * motionDurationSec;
+    (x: number, w: number) => {
+      const nextTimelineStartSec = (x / width) * motionDurationSec;
+      const nextTimelineDurationSec = (w / width) * motionDurationSec;
       project.setTimelineStartSec(nextTimelineStartSec);
       project.setTimelineEndSec(nextTimelineStartSec + nextTimelineDurationSec);
     },
     [
-      props.width,
+      width,
       project.setTimelineStartSec,
       project.setTimelineEndSec,
       motionDurationSec,
@@ -31,16 +30,21 @@ export const TimelineRangeView: React.FC<TimelineRangeViewProps> = props => {
   );
 
   return (
-    <div
-      className="timeline-range"
-      style={{ width: props.width, height: props.height }}
-    >
+    <div className="timeline-scale-bar">
+      <ReactResizeDetector
+        handleWidth
+        handleHeight
+        onResize={(width, height) => {
+          setWidth(width || 0);
+          setHeight(height || 0);
+        }}
+      />
       <Rnd
-        className="timeline-range__bar"
-        size={{ width: barWidth, height: props.height }}
+        className="timeline-scale-bar__bar"
+        size={{ width: barWidth, height: height }}
         position={{ x: barX, y: 0 }}
-        minWidth={(1 / motionDurationSec) * props.width}
-        maxWidth={props.width}
+        minWidth={(1 / motionDurationSec) * width}
+        maxWidth={width}
         dragAxis="x"
         enableResizing={{ right: true, left: true }}
         resizeHandleStyles={{
