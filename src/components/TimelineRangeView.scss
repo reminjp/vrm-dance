@@ -1,0 +1,13 @@
+@import '../variables';
+
+.timeline-range {
+  position: relative;
+
+  &__bar {
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: lighten($color-primary, 10%);
+    }
+  }
+}

@@ -1,0 +1,3 @@
+export const TIMELINE_FIRST_COLUMN_WIDTH = 20 * 16;
+export const TIMELINE_LEFT_MARGIN = 16;
+export const TIMELINE_RIGHT_MARGIN = 4 * 16;

@@ -1,0 +1,35 @@
+@import '../variables';
+
+.timeline-row {
+  display: flex;
+  width: 100%;
+
+  %__first-column {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    padding: ($size-gap / 2) $size-gap;
+  }
+
+  &__first-column {
+    @extend %__first-column;
+    background-color: $color-background-light;
+
+    &--odd {
+      @extend %__first-column;
+      background-color: lighten($color-background-light, 4%);
+    }
+  }
+
+  %__body {
+    flex: 1 1 auto;
+  }
+
+  &__body {
+    @extend %__body;
+
+    &--odd {
+      @extend %__body;
+      background-color: rgba($color-text, 0.04);
+    }
+  }
+}

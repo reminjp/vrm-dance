@@ -1,4 +1,5 @@
 @import './variables';
+
 .app {
   display: flex;
   flex-direction: column;
@@ -10,8 +11,7 @@
     flex: 0 0 auto;
     width: 100%;
     padding: ($size-gap / 2) $size-gap;
-    border-bottom: $size-border solid $color-border;
-    background-color: $color-background-gray;
+    background-color: $color-background-light;
   }
 
   &__body {
@@ -29,6 +29,9 @@
   &__inspector {
     width: 100%;
     height: 100%;
+    border-top: $size-border solid $color-background-dark;
+    border-bottom: $size-border solid $color-background-dark;
+    box-sizing: border-box;
     background-color: $color-background;
   }
 
@@ -40,17 +43,15 @@
 
   .Resizer {
     &.horizontal {
-      z-index: 1;
+      z-index: 1000;
       margin-bottom: (-$size-gap / 2);
-      border-top: $size-border solid $color-border;
       border-bottom: ($size-gap / 2) solid transparent;
       cursor: ns-resize;
     }
 
     &.vertical {
-      z-index: 1;
+      z-index: 1000;
       margin-right: (-$size-gap / 2);
-      border-left: $size-border solid $color-border;
       border-right: ($size-gap / 2) solid transparent;
       cursor: ew-resize;
     }
