@@ -10,7 +10,7 @@
     box-sizing: border-box;
     flex: 0 0 auto;
     width: 100%;
-    padding: ($size-gap / 2) $size-gap;
+    padding: ($size-text / 2) $size-text;
     background-color: $color-background-light;
   }
 
@@ -44,15 +44,15 @@
   .Resizer {
     &.horizontal {
       z-index: 1000;
-      margin-bottom: (-$size-gap / 2);
-      border-bottom: ($size-gap / 2) solid transparent;
+      margin-bottom: (-$size-text / 2);
+      border-bottom: ($size-text / 2) solid transparent;
       cursor: ns-resize;
     }
 
     &.vertical {
       z-index: 1000;
-      margin-right: (-$size-gap / 2);
-      border-right: ($size-gap / 2) solid transparent;
+      margin-right: (-$size-text / 2);
+      border-right: ($size-text / 2) solid transparent;
       cursor: ew-resize;
     }
   }

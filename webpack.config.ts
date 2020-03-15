@@ -1,6 +1,11 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as styleConstants from './src/constants/style';
+
+const scssPrependData = Object.entries(styleConstants)
+  .map(([key, value]) => `$${key}:${value};`)
+  .join('');
 
 const config: webpack.Configuration = {
   mode: 'production',
@@ -40,6 +45,7 @@ const config: webpack.Configuration = {
               sassOptions: {
                 fiber: require('fibers'),
               },
+              prependData: scssPrependData,
             },
           },
         ],
