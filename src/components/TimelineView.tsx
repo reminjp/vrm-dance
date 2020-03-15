@@ -2,7 +2,7 @@ import * as React from 'react';
 import { VRMSchema } from '@pixiv/three-vrm';
 import { TIMELINE_SIDE_COLUMN_WIDTH } from '../constants';
 import { TimelineBackgroundView } from './TimelineBackgroundView';
-import { TimelineRowView } from './TimelineRowView';
+import { TimelineTrackView } from './TimelineTrackView';
 import { TimelineRulerView } from './TimelineRulerView';
 import { TimelineScaleBarView } from './TimelineScaleBarView';
 import './TimelineView.scss';
@@ -26,7 +26,7 @@ export const TimelineView: React.FC = () => {
         </div>
         <div className="timeline__body">
           {Object.entries(VRMSchema.HumanoidBoneName).map(([key, value], i) => (
-            <TimelineRowView
+            <TimelineTrackView
               key={key}
               humanoidBoneName={value}
               oddRow={i % 2 === 0}
