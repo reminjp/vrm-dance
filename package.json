@@ -43,7 +43,8 @@
     "react-resize-detector": "4.2.1",
     "react-rnd": "10.1.6",
     "react-split-pane": "0.1.89",
-    "three": "0.114.0"
+    "three": "0.114.0",
+    "uuid": "7.0.2"
   },
   "devDependencies": {
     "@types/prop-types": "15.7.3",
