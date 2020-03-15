@@ -24,6 +24,8 @@
 
   %__body {
     flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
   }
 
   &__body {

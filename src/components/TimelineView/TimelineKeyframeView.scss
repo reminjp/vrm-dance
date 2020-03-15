@@ -1,0 +1,19 @@
+@import '../../variables';
+
+.timeline-keyframe {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  box-sizing: border-box;
+  width: (1.25 * $size-text);
+  height: (1.25 * $size-text);
+  border: $size-border solid $color-background-dark;
+  border-radius: 50%;
+  background-color: $color-text;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-primary;
+  }
+}

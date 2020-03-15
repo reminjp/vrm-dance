@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { VRMSchema } from '@pixiv/three-vrm';
+import { BoneTrack, Track } from '../models';
 
 export interface Project {
+  tracks: Track[];
+  createKeyframe(trackName: string, timeSec: number): void;
   motionStartSec: number;
   setMotionStartSec(value: number): void;
   motionEndSec: number;
@@ -14,6 +18,8 @@ export interface Project {
 }
 
 export const ProjectContext = React.createContext<Project>({
+  tracks: [],
+  createKeyframe: () => {},
   motionStartSec: 0,
   setMotionStartSec: () => {},
   motionEndSec: 1,
@@ -35,8 +41,25 @@ export interface ProjectProviderProps {
 }
 
 export const ProjectProvider: React.FC<ProjectProviderProps> = props => {
+  const [tracks, setTracks] = React.useState<Track[]>(() => [
+    ...Object.values(VRMSchema.HumanoidBoneName).map(e => new BoneTrack(e)),
+  ]);
+
+  const createKeyframe = React.useCallback(
+    (trackName: string, timeSec: number) => {
+      const track = tracks.find(e => trackName === e.name);
+      if (!track) return;
+
+      track.createKeyframe(timeSec);
+
+      setTracks([...tracks]);
+    },
+    [tracks, setTracks]
+  );
+
   const [motionStartSec, setMotionStartSec] = React.useState(0);
   const [motionEndSec, setMotionEndSec] = React.useState(10);
+
   const [timelineStartSec, setTimelineStartSec] = React.useState(0);
   const [timelineEndSec, setTimelineEndSec] = React.useState(5);
   const [timelineCursorSec, setTimelineCursorSec] = React.useState(0);
@@ -44,6 +67,8 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = props => {
   return (
     <ProjectContext.Provider
       value={{
+        tracks,
+        createKeyframe,
         motionStartSec,
         setMotionStartSec,
         motionEndSec,
