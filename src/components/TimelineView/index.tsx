@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { VRMSchema } from '@pixiv/three-vrm';
-import { TIMELINE_SIDE_COLUMN_WIDTH } from '../constants';
+import { TIMELINE_SIDE_COLUMN_WIDTH } from '../../constants';
 import { TimelineBackgroundView } from './TimelineBackgroundView';
 import { TimelineTrackView } from './TimelineTrackView';
 import { TimelineRulerView } from './TimelineRulerView';
 import { TimelineScaleBarView } from './TimelineScaleBarView';
-import './TimelineView.scss';
+import './index.scss';
 
 export const TimelineView: React.FC = () => {
   return (

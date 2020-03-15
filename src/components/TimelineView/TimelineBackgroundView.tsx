@@ -4,8 +4,8 @@ import {
   TIMELINE_LEFT_MARGIN,
   TIMELINE_RIGHT_MARGIN,
   TIMELINE_SIDE_COLUMN_WIDTH,
-} from '../constants';
-import { useEnvironment, useProject } from '../contexts';
+} from '../../constants';
+import { useEnvironment, useProject } from '../../contexts';
 import './TimelineBackgroundView.scss';
 
 const CURSOR_LINE_COLOR = '#3273dc';

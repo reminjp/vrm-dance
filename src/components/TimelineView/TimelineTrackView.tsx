@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TIMELINE_SIDE_COLUMN_WIDTH } from '../constants';
+import { TIMELINE_SIDE_COLUMN_WIDTH } from '../../constants';
 import './TimelineTrackView.scss';
 
 interface TimelineTrackViewProps {

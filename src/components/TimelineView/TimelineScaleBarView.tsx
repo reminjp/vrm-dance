@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactResizeDetector from 'react-resize-detector';
 import { Rnd } from 'react-rnd';
-import { useProject } from '../contexts';
+import { useProject } from '../../contexts';
 import './TimelineScaleBarView.scss';
 
 export const TimelineScaleBarView: React.FC = () => {
