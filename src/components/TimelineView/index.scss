@@ -1,7 +1,5 @@
 @import '../../variables';
 
-$TIMELINE_FIRST_COLUMN_WIDTH: 20 * $size-text;
-
 .timeline {
   position: relative;
   width: 100%;
@@ -10,7 +8,7 @@ $TIMELINE_FIRST_COLUMN_WIDTH: 20 * $size-text;
   &__background {
     position: absolute;
     top: 0;
-    left: 0;
+    left: $size-timeline-side-width;
     right: 0;
     bottom: 0;
   }
@@ -18,6 +16,7 @@ $TIMELINE_FIRST_COLUMN_WIDTH: 20 * $size-text;
   &__foreground {
     display: grid;
     grid-template-rows: (3 * $size-text) 1fr (3 * $size-text);
+    grid-template-columns: $size-timeline-side-width 1fr;
     position: absolute;
     top: 0;
     left: 0;

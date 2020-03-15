@@ -1,14 +1,15 @@
 import * as React from 'react';
-import {
-  TIMELINE_LEFT_MARGIN,
-  TIMELINE_RIGHT_MARGIN,
-  TIMELINE_SIDE_COLUMN_WIDTH,
-} from '../../constants';
-import { useEnvironment, useProject } from '../../contexts';
+import { useProject } from '../../contexts';
 import './TimelineRulerView.scss';
 
-export const TimelineRulerView: React.FC = () => {
-  const environment = useEnvironment();
+interface TimelineRulerViewProps {
+  mainWidth: number;
+  sideWidth: number;
+  paddingLeft: number;
+  paddingRight: number;
+}
+
+export const TimelineRulerView: React.FC<TimelineRulerViewProps> = props => {
   const project = useProject();
 
   const [dragging, setDragging] = React.useState(false);
@@ -16,11 +17,8 @@ export const TimelineRulerView: React.FC = () => {
   const setCursorSec = React.useCallback(
     (x: number) => {
       const cursorSec =
-        ((x - TIMELINE_LEFT_MARGIN) /
-          (environment.windowWidth -
-            TIMELINE_SIDE_COLUMN_WIDTH -
-            TIMELINE_LEFT_MARGIN -
-            TIMELINE_RIGHT_MARGIN)) *
+        ((x - props.paddingLeft) /
+          (props.mainWidth - props.paddingLeft - props.paddingRight)) *
           (project.timelineEndSec - project.timelineStartSec) +
         project.timelineStartSec;
 
@@ -32,7 +30,10 @@ export const TimelineRulerView: React.FC = () => {
       );
     },
     [
-      environment.windowWidth,
+      props.mainWidth,
+      props.sideWidth,
+      props.paddingLeft,
+      props.paddingRight,
       project.motionStartSec,
       project.motionEndSec,
       project.timelineStartSec,
@@ -43,10 +44,10 @@ export const TimelineRulerView: React.FC = () => {
 
   const onPointerDown = React.useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
-      setCursorSec(event.clientX - TIMELINE_SIDE_COLUMN_WIDTH);
+      setCursorSec(event.clientX - props.sideWidth);
       setDragging(true);
     },
-    [setCursorSec, setDragging]
+    [props.sideWidth, setCursorSec, setDragging]
   );
 
   const onPointerUp = React.useCallback(() => {
@@ -55,9 +56,9 @@ export const TimelineRulerView: React.FC = () => {
 
   const onPointerMove = React.useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
-      if (dragging) setCursorSec(event.clientX - TIMELINE_SIDE_COLUMN_WIDTH);
+      if (dragging) setCursorSec(event.clientX - props.sideWidth);
     },
-    [dragging, setCursorSec]
+    [props.sideWidth, dragging, setCursorSec]
   );
 
   return (

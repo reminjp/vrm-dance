@@ -1,77 +1,93 @@
 import * as React from 'react';
 import {
-  TIMELINE_HEADER_HEIGHT,
-  TIMELINE_LEFT_MARGIN,
-  TIMELINE_RIGHT_MARGIN,
-  TIMELINE_SIDE_COLUMN_WIDTH,
+  COLOR_BACKGROUND_LIGHT,
+  COLOR_TEXT,
+  COLOR_PRIMARY,
+  SIZE_BORDER,
+  SIZE_TEXT,
 } from '../../constants';
-import { useEnvironment, useProject } from '../../contexts';
+import { useProject } from '../../contexts';
 import './TimelineBackgroundView.scss';
 
-const CURSOR_LINE_COLOR = '#3273dc';
-const CURSOR_TEXT_COLOR = '#3273dc';
-const GRID_LINE_COLOR = 'rgba(255, 255, 255, 0.1)';
-const GRID_TEXT_COLOR = '#f5f5f5';
+interface TimelineBackgroundViewProps {
+  width: number;
+  height: number;
+  headerHeight: number;
+  paddingLeft: number;
+  paddingRight: number;
+}
 
-export const TimelineBackgroundView: React.FC = () => {
-  const environment = useEnvironment();
+export const TimelineBackgroundView: React.FC<TimelineBackgroundViewProps> = props => {
   const project = useProject();
 
-  const width = environment.windowWidth - TIMELINE_SIDE_COLUMN_WIDTH;
-  const height = environment.windowHeight;
-
   const grids = React.useMemo(() => {
+    if (props.width === 0) return [];
+
     const widthSec = project.timelineEndSec - project.timelineStartSec;
-    const leftMarginSec = (TIMELINE_LEFT_MARGIN / width) * widthSec;
-    const rightMarginSec = (TIMELINE_RIGHT_MARGIN / width) * widthSec;
+    const leftMarginSec = (props.paddingLeft / props.width) * widthSec;
+    const rightMarginSec = (props.paddingRight / props.width) * widthSec;
 
     const a: { sec: number; px: number }[] = [];
-    for (
-      let i = Math.ceil(project.timelineStartSec - leftMarginSec);
-      i <= project.timelineEndSec + rightMarginSec;
-      i++
-    ) {
+    const s = Math.ceil(project.timelineStartSec - leftMarginSec);
+    const t = Math.min(s + 100, project.timelineEndSec + rightMarginSec);
+    for (let i = s; i <= t; i++) {
       a.push({
         sec: i,
         px:
           ((i - project.timelineStartSec) / widthSec) *
-            (width - TIMELINE_LEFT_MARGIN - TIMELINE_RIGHT_MARGIN) +
-          TIMELINE_LEFT_MARGIN,
+            (props.width - props.paddingLeft - props.paddingRight) +
+          props.paddingLeft,
       });
     }
     return a;
-  }, [project.timelineStartSec, project.timelineEndSec, width]);
+  }, [
+    props.width,
+    props.paddingLeft,
+    props.paddingRight,
+    project.timelineStartSec,
+    project.timelineEndSec,
+  ]);
 
   const cursorPx = React.useMemo(() => {
     const widthSec = project.timelineEndSec - project.timelineStartSec;
 
     return (
       ((project.timelineCursorSec - project.timelineStartSec) / widthSec) *
-        (width - TIMELINE_LEFT_MARGIN - TIMELINE_RIGHT_MARGIN) +
-      TIMELINE_LEFT_MARGIN
+        (props.width - props.paddingLeft - props.paddingRight) +
+      props.paddingLeft
     );
   }, [
+    props.width,
+    props.paddingLeft,
+    props.paddingRight,
     project.timelineStartSec,
     project.timelineEndSec,
     project.timelineCursorSec,
-    width,
   ]);
 
   return (
     <div className="timeline-background">
-      <svg width={width} height={height} viewBox={`0,0,${width},${height}`}>
+      <svg
+        width={props.width}
+        height={props.height}
+        viewBox={`0,0,${props.width},${props.height}`}
+      >
         {grids.map(({ sec, px }) => (
           <g key={sec}>
             <line
               className="timeline-background__grid--primary"
               x1={px}
               x2={px}
-              y1={TIMELINE_HEADER_HEIGHT - 24}
-              y2={height}
-              stroke={GRID_LINE_COLOR}
-              strokeWidth={2}
+              y1={props.headerHeight - SIZE_BORDER - 1.5 * SIZE_TEXT}
+              y2={props.height}
+              stroke={COLOR_BACKGROUND_LIGHT}
+              strokeWidth={SIZE_BORDER}
             />
-            <text x={px} y={TIMELINE_HEADER_HEIGHT - 28} fill={GRID_TEXT_COLOR}>
+            <text
+              x={px}
+              y={props.headerHeight - SIZE_BORDER - 1.75 * SIZE_TEXT}
+              fill={COLOR_TEXT}
+            >
               {sec}
             </text>
           </g>
@@ -80,15 +96,15 @@ export const TimelineBackgroundView: React.FC = () => {
           className="timeline-background__grid--primary"
           x1={cursorPx}
           x2={cursorPx}
-          y1={TIMELINE_HEADER_HEIGHT}
-          y2={height}
-          stroke={CURSOR_LINE_COLOR}
-          strokeWidth={2}
+          y1={props.headerHeight}
+          y2={props.height}
+          stroke={COLOR_PRIMARY}
+          strokeWidth={SIZE_BORDER}
         />
         <text
           x={cursorPx}
-          y={TIMELINE_HEADER_HEIGHT - 6}
-          fill={CURSOR_TEXT_COLOR}
+          y={props.headerHeight - SIZE_BORDER - 0.25 * SIZE_TEXT}
+          fill={COLOR_PRIMARY}
         >
           {project.timelineCursorSec.toFixed(3)}
         </text>

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TIMELINE_SIDE_COLUMN_WIDTH } from '../../constants';
 import './TimelineTrackView.scss';
 
 interface TimelineTrackViewProps {
@@ -14,7 +13,6 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
         className={
           'timeline-track__first-column' + (props.oddRow ? '--odd' : '')
         }
-        style={{ width: TIMELINE_SIDE_COLUMN_WIDTH }}
       >
         {props.humanoidBoneName}
       </div>

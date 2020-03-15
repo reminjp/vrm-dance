@@ -8,6 +8,7 @@
   %__first-column {
     box-sizing: border-box;
     flex: 0 0 auto;
+    width: $size-timeline-side-width;
     padding: ($size-text / 8) $size-text;
   }
 

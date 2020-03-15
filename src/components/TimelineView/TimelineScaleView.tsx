@@ -2,9 +2,9 @@ import * as React from 'react';
 import ReactResizeDetector from 'react-resize-detector';
 import { Rnd } from 'react-rnd';
 import { useProject } from '../../contexts';
-import './TimelineScaleBarView.scss';
+import './TimelineScaleView.scss';
 
-export const TimelineScaleBarView: React.FC = () => {
+export const TimelineScaleView: React.FC = () => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
 
@@ -30,7 +30,7 @@ export const TimelineScaleBarView: React.FC = () => {
   );
 
   return (
-    <div className="timeline-scale-bar">
+    <div className="timeline-scale">
       <ReactResizeDetector
         handleWidth
         handleHeight
@@ -40,7 +40,7 @@ export const TimelineScaleBarView: React.FC = () => {
         }}
       />
       <Rnd
-        className="timeline-scale-bar__bar"
+        className="timeline-scale__bar"
         size={{ width: barWidth, height: height }}
         position={{ x: barX, y: 0 }}
         minWidth={(1 / motionDurationSec) * width}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactResizeDetector from 'react-resize-detector';
 import SplitPane from 'react-split-pane';
 import {
   HeaderView,
@@ -6,44 +7,55 @@ import {
   SceneView,
   TimelineView,
 } from './components';
-import { useEnvironment } from './contexts';
+import { ProjectProvider } from './contexts';
 import './App.scss';
 
 export const App: React.FC = () => {
-  const environment = useEnvironment();
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
 
   return (
     <div className="app">
-      <div className="app__header">
-        <HeaderView />
-      </div>
-      <div className="app__body">
-        <SplitPane
-          split="horizontal"
-          defaultSize={20 * 16}
-          minSize={10 * 16}
-          maxSize={environment.windowHeight - 10 * 16}
-          primary="second"
-        >
+      <ProjectProvider>
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={(w, h) => {
+            setWidth(w || 0);
+            setHeight(h || 0);
+          }}
+        />
+        <div className="app__header">
+          <HeaderView />
+        </div>
+        <div className="app__body">
           <SplitPane
-            split="vertical"
+            split="horizontal"
             defaultSize={20 * 16}
             minSize={10 * 16}
-            maxSize={environment.windowWidth - 10 * 16}
+            maxSize={height - 10 * 16}
             primary="second"
           >
-            <div className="app__scene">
-              <SceneView />
-            </div>
-            <div className="app__inspector">
-              <InspectorView />
+            <SplitPane
+              split="vertical"
+              defaultSize={20 * 16}
+              minSize={10 * 16}
+              maxSize={width - 10 * 16}
+              primary="second"
+            >
+              <div className="app__scene">
+                <SceneView />
+              </div>
+              <div className="app__inspector">
+                <InspectorView />
+              </div>
+            </SplitPane>
+            <div className="app__timeline">
+              <TimelineView />
             </div>
           </SplitPane>
-          <div className="app__timeline">
-            <TimelineView />
-          </div>
-        </SplitPane>
-      </div>
+        </div>
+      </ProjectProvider>
     </div>
   );
 };
