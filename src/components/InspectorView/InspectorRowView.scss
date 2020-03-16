@@ -1,0 +1,17 @@
+@import '../../variables';
+
+.inspector-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: ($size-text / 4) 0;
+
+  &__label {
+    flex: 0 0 50%;
+    user-select: none;
+  }
+
+  &__input {
+    flex: 0 0 50%;
+  }
+}

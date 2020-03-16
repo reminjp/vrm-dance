@@ -6,19 +6,23 @@ import {
   Track,
   TrackChunkSize,
   TrackType,
-  // lerpedValue,
+  lerpedValue,
   lowerBound,
 } from './Track';
 
 export * from './Track';
 
 // temporary variables
-const _v3 = new THREE.Vector3();
 const _q = new THREE.Quaternion();
 
 export interface Animation {
   tracks: Track[];
-  createKeyframe(trackName: string, timeSec: number): string | null;
+  createKeyframe(trackUuid: string, timeSec: number): string | null;
+  setKeyframeValues(
+    trackUuid: string,
+    keyframeUuid: string,
+    values: number[]
+  ): void;
   startAtSec: number;
   endAtSec: number;
   durationSec: number;
@@ -28,6 +32,7 @@ export interface Animation {
 export const AnimationContext = React.createContext<Animation>({
   tracks: [],
   createKeyframe: () => null,
+  setKeyframeValues: () => {},
   startAtSec: 0,
   endAtSec: 1,
   durationSec: 1,
@@ -74,21 +79,9 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
         timeSec,
         ...track.times.slice(index),
       ];
-      // const nextValues = [
-      //   ...track.values.slice(0, index * chunkSize),
-      //   ...lerpedValue(track, timeSec),
-      //   ...track.values.slice(index * chunkSize),
-      // ];
-
-      // test
       const nextValues = [
         ...track.values.slice(0, index * chunkSize),
-        ..._q
-          .setFromAxisAngle(
-            _v3.set(0, 0, 1),
-            (Math.PI / 2) * Math.random() - Math.PI / 4
-          )
-          .toArray(),
+        ...lerpedValue(track, timeSec),
         ...track.values.slice(index * chunkSize),
       ];
 
@@ -109,6 +102,34 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
     [tracks, setTracks]
   );
 
+  const setKeyframeValues = React.useCallback(
+    (trackUuid: string, keyframeUuid: string, values: number[]) => {
+      const track = tracks.find(e => trackUuid === e.uuid);
+      if (!track) return;
+
+      const index = track.uuids.findIndex(uuid => uuid === keyframeUuid);
+      if (index === -1) return;
+
+      const chunkSize = TrackChunkSize[track.type];
+      if (values.length !== chunkSize) {
+        // TODO: employ assert function
+        console.error(
+          'Animation',
+          'setKeyframeValues',
+          'values.length !== chunkSize'
+        );
+        return;
+      }
+
+      const nextValues = [...track.values];
+      nextValues.splice(index * chunkSize, chunkSize, ...values);
+      track.values = nextValues;
+
+      setTracks([...tracks]);
+    },
+    [tracks, setTracks]
+  );
+
   const [durationSec, setDurationSec] = React.useState(10);
 
   return (
@@ -116,6 +137,7 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
       value={{
         tracks,
         createKeyframe,
+        setKeyframeValues,
         startAtSec: 0,
         endAtSec: durationSec,
         durationSec,

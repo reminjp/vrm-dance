@@ -1,0 +1,24 @@
+@import '../../variables';
+
+.inspector-number-input {
+  width: 100%;
+
+  &__input {
+    width: 100%;
+    padding: ($size-text / 2);
+    border: none;
+    box-sizing: border-box;
+    background-color: $color-background-dark;
+    color: $color-text;
+    text-align: right;
+    font-family: $font-family-sans-serif;
+    font-size: $size-text;
+    appearance: none;
+    outline: none;
+
+    &:focus {
+      padding: ($size-text / 2 - $size-border);
+      border: $size-border solid $color-primary;
+    }
+  }
+}
