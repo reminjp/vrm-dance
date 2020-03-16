@@ -63,7 +63,7 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
           x={secToPx(props.track.times[i])}
         />
       )),
-    [props.track.uuids, secToPx]
+    [props.track.type, props.track.uuids, props.track.times, secToPx]
   );
 
   return (

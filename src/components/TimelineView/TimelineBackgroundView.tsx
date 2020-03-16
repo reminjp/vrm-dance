@@ -60,7 +60,6 @@ export const TimelineBackgroundView: React.FC<TimelineBackgroundViewProps> = pro
       props.paddingLeft,
       props.paddingRight,
       timeline.startAtSec,
-      timeline.endAtSec,
       timeline.durationSec,
       timeline.cursorSec,
     ]
