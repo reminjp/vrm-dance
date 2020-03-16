@@ -50,6 +50,17 @@ const config: webpack.Configuration = {
           },
         ],
       },
+      {
+        test: /\.vrm$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
