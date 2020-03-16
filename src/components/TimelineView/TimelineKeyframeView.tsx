@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TrackType } from '../../models';
+import { TrackType } from '../../contexts';
 import './TimelineKeyframeView.scss';
 
 interface TimelineKeyframeViewProps {

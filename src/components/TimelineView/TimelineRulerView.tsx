@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useProject } from '../../contexts';
+import { useAnimation, useTimeline } from '../../contexts';
 import './TimelineRulerView.scss';
 
 interface TimelineRulerViewProps {
@@ -10,7 +10,8 @@ interface TimelineRulerViewProps {
 }
 
 export const TimelineRulerView: React.FC<TimelineRulerViewProps> = props => {
-  const project = useProject();
+  const animation = useAnimation();
+  const timeline = useTimeline();
 
   const [dragging, setDragging] = React.useState(false);
 
@@ -19,26 +20,23 @@ export const TimelineRulerView: React.FC<TimelineRulerViewProps> = props => {
       const cursorSec =
         ((x - props.paddingLeft) /
           (props.mainWidth - props.paddingLeft - props.paddingRight)) *
-          (project.timelineEndSec - project.timelineStartSec) +
-        project.timelineStartSec;
+          timeline.durationSec +
+        timeline.startAtSec;
 
-      project.setTimelineCursorSec(
-        Math.max(
-          project.motionStartSec,
-          Math.min(project.motionEndSec, cursorSec)
-        )
+      timeline.setCursorSec(
+        Math.max(animation.startAtSec, Math.min(animation.endAtSec, cursorSec))
       );
     },
     [
       props.mainWidth,
-      props.sideWidth,
       props.paddingLeft,
       props.paddingRight,
-      project.motionStartSec,
-      project.motionEndSec,
-      project.timelineStartSec,
-      project.timelineEndSec,
-      project.setTimelineCursorSec,
+      animation.startAtSec,
+      animation.endAtSec,
+      timeline.startAtSec,
+      timeline.durationSec,
+      timeline.cursorSec,
+      timeline.setCursorSec,
     ]
   );
 

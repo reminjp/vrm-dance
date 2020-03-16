@@ -1,32 +1,27 @@
 import * as React from 'react';
 import ReactResizeDetector from 'react-resize-detector';
 import { Rnd } from 'react-rnd';
-import { useProject } from '../../contexts';
+import { useAnimation, useTimeline } from '../../contexts';
 import './TimelineScaleView.scss';
 
 export const TimelineScaleView: React.FC = () => {
+  const animation = useAnimation();
+  const timeline = useTimeline();
+
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
 
-  const project = useProject();
-  const motionDurationSec = project.motionEndSec - project.motionStartSec;
-  const timelineDurationSec = project.timelineEndSec - project.timelineStartSec;
-  const barX = (project.timelineStartSec / motionDurationSec) * width;
-  const barWidth = (timelineDurationSec / motionDurationSec) * width;
+  const barX = (timeline.startAtSec / animation.durationSec) * width;
+  const barWidth = (timeline.durationSec / animation.durationSec) * width;
 
   const handleResizeAndDrag = React.useCallback(
     (x: number, w: number) => {
-      const nextTimelineStartSec = (x / width) * motionDurationSec;
-      const nextTimelineDurationSec = (w / width) * motionDurationSec;
-      project.setTimelineStartSec(nextTimelineStartSec);
-      project.setTimelineEndSec(nextTimelineStartSec + nextTimelineDurationSec);
+      const s = (x / width) * animation.durationSec;
+      const d = (w / width) * animation.durationSec;
+      timeline.setStartAtSec(s);
+      timeline.setEndAtSec(s + d);
     },
-    [
-      width,
-      project.setTimelineStartSec,
-      project.setTimelineEndSec,
-      motionDurationSec,
-    ]
+    [animation.durationSec, timeline.setStartAtSec, timeline.setEndAtSec, width]
   );
 
   return (
@@ -43,7 +38,7 @@ export const TimelineScaleView: React.FC = () => {
         className="timeline-scale__bar"
         size={{ width: barWidth, height: height }}
         position={{ x: barX, y: 0 }}
-        minWidth={(1 / motionDurationSec) * width}
+        minWidth={(1 / animation.durationSec) * width}
         maxWidth={width}
         dragAxis="x"
         enableResizing={{ right: true, left: true }}

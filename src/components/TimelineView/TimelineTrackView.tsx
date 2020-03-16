@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useProject } from '../../contexts';
-import { Track, TrackType } from '../../models';
+import { Track, useAnimation, useTimeline } from '../../contexts';
 import { TimelineKeyframeView } from './TimelineKeyframeView';
 import './TimelineTrackView.scss';
 
@@ -14,68 +13,58 @@ interface TimelineTrackViewProps {
 }
 
 export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
-  const project = useProject();
+  const animation = useAnimation();
+  const timeline = useTimeline();
 
   const onDoubleClick = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       const x = event.clientX - props.sideWidth - props.paddingLeft;
-      const widthPx = props.mainWidth - props.paddingLeft - props.paddingRight;
-      const widthSec = project.timelineEndSec - project.timelineStartSec;
-      project.createKeyframe(
-        props.track.name,
-        (x / widthPx) * widthSec + project.timelineStartSec
+      const w = props.mainWidth - props.paddingLeft - props.paddingRight;
+
+      animation.createKeyframe(
+        props.track.uuid,
+        (x / w) * timeline.durationSec + timeline.startAtSec
       );
     },
     [
-      props.track,
+      props.track.uuid,
       props.mainWidth,
       props.sideWidth,
       props.paddingLeft,
       props.paddingRight,
-      project.createKeyframe,
-      project.timelineStartSec,
-      project.timelineEndSec,
+      animation.createKeyframe,
+      timeline.startAtSec,
+      timeline.durationSec,
     ]
   );
 
   const secToPx = React.useCallback(
     sec =>
-      ((sec - project.timelineStartSec) /
-        (project.timelineEndSec - project.timelineStartSec)) *
+      ((sec - timeline.startAtSec) / timeline.durationSec) *
         (props.mainWidth - props.paddingLeft - props.paddingRight) +
       props.paddingLeft,
     [
       props.mainWidth,
       props.paddingLeft,
       props.paddingRight,
-      project.timelineStartSec,
-      project.timelineEndSec,
+      timeline.startAtSec,
+      timeline.durationSec,
     ]
   );
 
-  const keyframes = React.useMemo(() => {
-    // TODO: refactor
-    switch (props.track.type) {
-      case TrackType.BoneTrack:
-        return props.track.keyframes.map(keyframe => (
-          <TimelineKeyframeView
-            key={keyframe.uuid}
-            trackType={props.track.type}
-            keyframeUuid={keyframe.uuid}
-            x={secToPx(keyframe.time)}
-          />
-        ));
-      case TrackType.BlendShapeTrack:
-        return props.track.keyframes.map(keyframe => (
-          <TimelineKeyframeView
-            key={keyframe.uuid}
-            trackType={props.track.type}
-            keyframeUuid={keyframe.uuid}
-            x={secToPx(keyframe.time)}
-          />
-        ));
-    }
-  }, [props.track.keyframes, secToPx]);
+  // TODO: binary-search left and right ends.
+  const keyframes = React.useMemo(
+    () =>
+      props.track.uuids.map((uuid, i) => (
+        <TimelineKeyframeView
+          key={uuid}
+          trackType={props.track.type}
+          keyframeUuid={uuid}
+          x={secToPx(props.track.times[i])}
+        />
+      )),
+    [props.track.uuids, secToPx]
+  );
 
   return (
     <div className="timeline-track">

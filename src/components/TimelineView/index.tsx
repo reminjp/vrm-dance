@@ -5,7 +5,7 @@ import {
   SIZE_TIMELINE_HEADER_HEIGHT,
   SIZE_TIMELINE_SIDE_WIDTH,
 } from '../../constants';
-import { useProject } from '../../contexts';
+import { useAnimation } from '../../contexts';
 import { TimelineBackgroundView } from './TimelineBackgroundView';
 import { TimelineRulerView } from './TimelineRulerView';
 import { TimelineScaleView } from './TimelineScaleView';
@@ -16,7 +16,7 @@ const PADDING_LEFT = 2 * SIZE_TEXT;
 const PADDING_RIGHT = 4 * SIZE_TEXT;
 
 export const TimelineView: React.FC = () => {
-  const project = useProject();
+  const animation = useAnimation();
 
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -51,9 +51,9 @@ export const TimelineView: React.FC = () => {
           />
         </div>
         <div className="timeline__body">
-          {project.tracks.map((track, i) => (
+          {animation.tracks.map((track, i) => (
             <TimelineTrackView
-              key={track.name}
+              key={track.uuid}
               track={track}
               mainWidth={width - SIZE_TIMELINE_SIDE_WIDTH}
               sideWidth={SIZE_TIMELINE_SIDE_WIDTH}
