@@ -27,10 +27,10 @@ class TrackBase<T> {
 
   public lowerBound(time: number) {
     let head = 0;
-    let tail = this.keyframes.length + 1;
-    while (head + 1 < tail) {
+    let tail = this.keyframes.length;
+    while (head < tail) {
       const i = head + Math.floor((tail - head) / 2);
-      if (i < this.keyframes.length && time < this.keyframes[i].time) {
+      if (time > this.keyframes[i].time) {
         head = i + 1;
       } else {
         tail = i;
@@ -51,7 +51,15 @@ export class BoneTrack extends TrackBase<THREE.Quaternion> {
   }
 
   public createKeyframe(time: number) {
-    this.insertKeyframe(new Keyframe(time, new THREE.Quaternion()));
+    // this.insertKeyframe(new Keyframe(time, new THREE.Quaternion()));
+
+    // test
+    const q = new THREE.Quaternion();
+    q.setFromAxisAngle(
+      new THREE.Vector3(0, 0, 1),
+      (Math.PI / 2) * Math.random() - Math.PI / 4
+    );
+    this.insertKeyframe(new Keyframe(time, q));
   }
 }
 
