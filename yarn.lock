@@ -26,7 +26,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.8.7":
+"@babel/runtime@^7.7.7", "@babel/runtime@^7.8.7":
   version "7.8.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.7.tgz#8fefce9802db54881ba59f90bb28719b4996324d"
   integrity sha512-+AATMUFppJDw6aiR5NVPHqIQBlV/Pj8wY/EZH+lmvRdUo9xBaz/rF3alAwFJQavvKfeOlPE7oaaDHVbcySbCsg==
@@ -58,6 +58,11 @@
   integrity sha512-49V3WNysLZU5fZ3sqSuys4nGRytsrxJktbv3vuaXkEoxv22C6T7TEG0TW6+nqVjMnkfCQd5xOnmJoZHMF78tOw==
   dependencies:
     prop-types "^15.7.2"
+
+"@juggle/resize-observer@^3.0.2":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.1.1.tgz#ade32049ae8e6cd692ef5d760aa4fdbe0db356e2"
+  integrity sha512-zo+xWLZ0FNY4hhFLHyvJ+fOzWUKGkK0wQDdiLkJU6daXvQDEohh9p5rvGl5GpkXAr2Zx6WMRstl8Ulu/QTRKww==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -1509,6 +1514,11 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
+debounce@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
+  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -2263,6 +2273,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+fast-deep-equal@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
+  integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
+
 fast-deep-equal@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.1.tgz#545145077c501491e33b15ec408c294376e94ae4"
@@ -2361,6 +2376,14 @@ file-entry-cache@^5.0.1:
   integrity sha512-bCg29ictuBaKUwwArK4ouCaqDgLZcysCFLmM/Yn/FDoqndh/9vNuQfXRDvTuXKLxfD/JtZQGKFT8MGcJBK644g==
   dependencies:
     flat-cache "^2.0.1"
+
+file-loader@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-5.1.0.tgz#cb56c070efc0e40666424309bd0d9e45ac6f2bb8"
+  integrity sha512-u/VkLGskw3Ue59nyOwUwXI/6nuBCo7KBkniB/l7ICwr/7cPNGsL1WCXUp3GB0qgOOKU1TiP49bv4DZF/LJqprg==
+  dependencies:
+    loader-utils "^1.4.0"
+    schema-utils "^2.5.0"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -3670,7 +3693,7 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3:
+loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3, loader-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.0.tgz#c579b5e34cb34b1a74edc6c1fb36bfa371d5a613"
   integrity sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
@@ -4976,6 +4999,28 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-merge-refs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.0.0.tgz#d6b297b9a62a266460a3c0d8b9d920731d8bbe63"
+  integrity sha512-VkvWuCR5VoTjb+VYUcOjkFo66HDv1Hw8VjKcwQtWr2lJnT8g7epRRyfz8+Zkl2WhwqNeqR0gIe0XYrBa9ePeXg==
+
+react-promise-suspense@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/react-promise-suspense/-/react-promise-suspense-0.3.2.tgz#202555b449cfb918f985aa93596029d842c4dcb4"
+  integrity sha512-1HAhT6eCSaeAp/u1mDsWgWQQDX/IhNjYAl4novVXq4DhH+AQPYEdagZM8M5SXI5qgbmmbcTZOqioH7MpsBmr8Q==
+  dependencies:
+    fast-deep-equal "^2.0.1"
+
+react-reconciler@0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.24.0.tgz#5a396b2c2f5efe8554134a5935f49f546723f2dd"
+  integrity sha512-gAGnwWkf+NOTig9oOowqid9O0HjTDC+XVGBCAmJYYJ2A2cN/O4gDdIuuUQjv8A4v6GDwVfJkagpBBLW5OW9HSw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.18.0"
+
 react-resize-detector@4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-4.2.1.tgz#8982b74c3e1cf949afaa3c41050458c87b033982"
@@ -5011,6 +5056,29 @@ react-style-proptype@^3.0.0:
   integrity sha512-ywYLSjNkxKHiZOqNlso9PZByNEY+FTyh3C+7uuziK0xFXu9xzdyfHwg4S9iyiRRoPCR4k2LqaBBsWVmSBwCWYQ==
   dependencies:
     prop-types "^15.5.4"
+
+react-three-fiber@4.0.20:
+  version "4.0.20"
+  resolved "https://registry.yarnpkg.com/react-three-fiber/-/react-three-fiber-4.0.20.tgz#c043f504a97fa5b5f0472515c768cdbc1c840ac5"
+  integrity sha512-UL0p2mQlYG/bcwTnxWNyDbR2KaKN/yXcZdAGqyzp4b7UUA81HEnk01wNZcxrS8RodYFRznarjyJ/emDI8tXKKQ==
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    "@juggle/resize-observer" "^3.0.2"
+    react-merge-refs "^1.0.0"
+    react-promise-suspense "^0.3.2"
+    react-reconciler "0.24.0"
+    react-use-measure "^2.0.0"
+    resize-observer-polyfill "^1.5.1"
+    scheduler "0.18.0"
+    tiny-emitter "^2.1.0"
+    utility-types "^3.10.0"
+
+react-use-measure@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.0.0.tgz#f49b5cbde4cc18f5061d726a8a3db9fcd2244998"
+  integrity sha512-aYosukh38+eqjgNExd/OKEM0n5YSbl5niYYq3OAUWywf3deUjpnVfGMnwTmjF32+Owqr1sc3KKZku9n72lAaPA==
+  dependencies:
+    debounce "^1.2.0"
 
 react@16.13.0:
   version "16.13.0"
@@ -5326,6 +5394,14 @@ sass@1.26.3:
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
+scheduler@0.18.0, scheduler@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.18.0.tgz#5901ad6659bc1d8f3fdaf36eb7a67b0d6746b1c4"
+  integrity sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+
 scheduler@^0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.0.tgz#a715d56302de403df742f4a9be11975b32f5698d"
@@ -5343,7 +5419,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6.4:
+schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6.4:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.6.5.tgz#c758f0a7e624263073d396e29cd40aa101152d8a"
   integrity sha512-5KXuwKziQrTVHh8j/Uxz+QUbxkaLW9X/86NBlx/gnKgtsZA2GIVMUn17qWhRFwF8jdYb3Dig5hRO/W5mZqy6SQ==
@@ -6026,6 +6102,11 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -6295,6 +6376,11 @@ utila@^0.4.0, utila@~0.4:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=
+
+utility-types@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/utility-types/-/utility-types-3.10.0.tgz#ea4148f9a741015f05ed74fd615e1d20e6bed82b"
+  integrity sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==
 
 utils-merge@1.0.1:
   version "1.0.1"
