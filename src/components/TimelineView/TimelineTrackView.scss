@@ -16,6 +16,11 @@
     @extend %__first-column;
     background-color: $color-background-light;
 
+    &--active {
+      @extend %__first-column;
+      background-color: $color-primary;
+    }
+
     &--odd {
       @extend %__first-column;
       background-color: lighten($color-background-light, 4%);

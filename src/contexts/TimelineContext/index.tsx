@@ -8,6 +8,10 @@ export interface Timeline {
   durationSec: number;
   cursorSec: number;
   setCursorSec(value: number): void;
+  selectedTrackUuid?: string;
+  setSelectedTrackUuid(value: string): void;
+  selectedKeyframeUuid?: string;
+  setSelectedKeyframeUuid(value: string): void;
 }
 
 export const TimelineContext = React.createContext<Timeline>({
@@ -18,6 +22,8 @@ export const TimelineContext = React.createContext<Timeline>({
   durationSec: 1,
   cursorSec: 0,
   setCursorSec: () => {},
+  setSelectedTrackUuid: () => {},
+  setSelectedKeyframeUuid: () => {},
 });
 
 export function useTimeline(): Timeline {
@@ -39,6 +45,11 @@ export const TimelineProvider: React.FC<TimelineProviderProps> = props => {
 
   const [cursorSec, setCursorSec] = React.useState(0);
 
+  const [selectedTrackUuid, setSelectedTrackUuid] = React.useState<string>();
+  const [selectedKeyframeUuid, setSelectedKeyframeUuid] = React.useState<
+    string
+  >();
+
   return (
     <TimelineContext.Provider
       value={{
@@ -49,6 +60,10 @@ export const TimelineProvider: React.FC<TimelineProviderProps> = props => {
         durationSec,
         cursorSec,
         setCursorSec,
+        selectedTrackUuid,
+        setSelectedTrackUuid,
+        selectedKeyframeUuid,
+        setSelectedKeyframeUuid,
       }}
     >
       {props.children}

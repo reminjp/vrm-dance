@@ -21,10 +21,13 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
       const x = event.clientX - props.sideWidth - props.paddingLeft;
       const w = props.mainWidth - props.paddingLeft - props.paddingRight;
 
-      animation.createKeyframe(
+      const createdKeyframeUuid = animation.createKeyframe(
         props.track.uuid,
         (x / w) * timeline.durationSec + timeline.startAtSec
       );
+
+      timeline.setSelectedTrackUuid(props.track.uuid);
+      timeline.setSelectedKeyframeUuid(createdKeyframeUuid);
     },
     [
       props.track.uuid,
@@ -35,6 +38,8 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
       animation.createKeyframe,
       timeline.startAtSec,
       timeline.durationSec,
+      timeline.setSelectedTrackUuid,
+      timeline.setSelectedKeyframeUuid,
     ]
   );
 
@@ -59,18 +64,31 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
         <TimelineKeyframeView
           key={uuid}
           trackType={props.track.type}
+          trackUuid={props.track.uuid}
           keyframeUuid={uuid}
           x={secToPx(props.track.times[i])}
         />
       )),
-    [props.track.type, props.track.uuids, props.track.times, secToPx]
+    [
+      props.track.type,
+      props.track.uuid,
+      props.track.uuids,
+      props.track.times,
+      secToPx,
+    ]
+  );
+
+  const active = React.useMemo(
+    () => props.track.uuid === timeline.selectedTrackUuid,
+    [props.track.uuid, timeline.selectedTrackUuid]
   );
 
   return (
     <div className="timeline-track">
       <div
         className={
-          'timeline-track__first-column' + (props.oddRow ? '--odd' : '')
+          'timeline-track__first-column' +
+          (active ? '--active' : props.oddRow ? '--odd' : '')
         }
       >
         {props.track.name}

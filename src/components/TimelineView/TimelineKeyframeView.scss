@@ -1,6 +1,6 @@
 @import '../../variables';
 
-.timeline-keyframe {
+%__mark {
   position: absolute;
   top: 50%;
   left: 0;
@@ -12,8 +12,17 @@
   background-color: $color-text;
   transform: translate(-50%, -50%);
   cursor: pointer;
+}
+
+.timeline-keyframe__mark {
+  @extend %__mark;
 
   &:hover {
+    background-color: darken($color-text, 20%);
+  }
+
+  &--active {
+    @extend %__mark;
     background-color: $color-primary;
   }
 }

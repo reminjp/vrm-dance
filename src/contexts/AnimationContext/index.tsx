@@ -18,7 +18,7 @@ const _q = new THREE.Quaternion();
 
 export interface Animation {
   tracks: Track[];
-  createKeyframe(trackName: string, timeSec: number): void;
+  createKeyframe(trackName: string, timeSec: number): string | null;
   startAtSec: number;
   endAtSec: number;
   durationSec: number;
@@ -27,7 +27,7 @@ export interface Animation {
 
 export const AnimationContext = React.createContext<Animation>({
   tracks: [],
-  createKeyframe: () => {},
+  createKeyframe: () => null,
   startAtSec: 0,
   endAtSec: 1,
   durationSec: 1,
@@ -55,16 +55,18 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
   ]);
 
   const createKeyframe = React.useCallback(
-    (trackUuid: string, timeSec: number) => {
+    (trackUuid: string, timeSec: number): string | null => {
       const track = tracks.find(e => trackUuid === e.uuid);
-      if (!track) return;
+      if (!track) return null;
 
       const chunkSize = TrackChunkSize[track.type];
       const index = lowerBound(track.times, timeSec);
 
+      const uuid = uuidv4();
+
       const nextUuids = [
         ...track.uuids.slice(0, index),
-        uuidv4(),
+        uuid,
         ...track.uuids.slice(index),
       ];
       const nextTimes = [
@@ -101,6 +103,8 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
       track.values = nextValues;
 
       setTracks([...tracks]);
+
+      return uuid;
     },
     [tracks, setTracks]
   );
