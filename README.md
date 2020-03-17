@@ -1,6 +1,6 @@
-# VRM Dance
+# [WIP] VRM Dance
 
-A VRM motion editor powered by [@pixiv/three-vrm](https://github.com/pixiv/three-vrm).
+A VRM animation editor powered by [@pixiv/three-vrm](https://github.com/pixiv/three-vrm).
 
 ## Development
 
