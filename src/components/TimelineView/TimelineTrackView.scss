@@ -27,6 +27,18 @@
     }
   }
 
+  &:hover {
+    .timeline-track__first-column {
+      @extend %__first-column;
+      background-color: mix($color-background-light, $color-primary, 50%);
+
+      &--odd {
+        @extend %__first-column;
+        background-color: mix($color-background-light, $color-primary, 50%);
+      }
+    }
+  }
+
   %__body {
     flex: 1 1 auto;
     position: relative;
