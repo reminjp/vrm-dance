@@ -16,8 +16,24 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
   const animation = useAnimation();
   const timeline = useTimeline();
 
+  const onClick = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+
+      timeline.setSelectedTrackUuid(props.track.uuid);
+      timeline.setSelectedKeyframeUuid(null);
+    },
+    [
+      props.track.uuid,
+      timeline.setSelectedTrackUuid,
+      timeline.setSelectedKeyframeUuid,
+    ]
+  );
+
   const onDoubleClick = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+
       const x = event.clientX - props.sideWidth - props.paddingLeft;
       const w = props.mainWidth - props.paddingLeft - props.paddingRight;
 
@@ -84,7 +100,7 @@ export const TimelineTrackView: React.FC<TimelineTrackViewProps> = props => {
   );
 
   return (
-    <div className="timeline-track">
+    <div className="timeline-track" onClick={onClick}>
       <div
         className={
           'timeline-track__first-column' +

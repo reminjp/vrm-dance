@@ -43,14 +43,14 @@ export const InspectorView: React.FC = () => {
 
   return (
     <div className="inspector">
-      {trackType !== undefined && (
+      {time !== undefined && (
         <InspectorTimeView
           trackUuid={timeline.selectedTrackUuid}
           keyframeUuid={timeline.selectedKeyframeUuid}
           time={time}
         />
       )}
-      {trackType === TrackType.Bone && (
+      {trackType === TrackType.Bone && values !== undefined && (
         <InspectorBoneView
           trackUuid={timeline.selectedTrackUuid}
           keyframeUuid={timeline.selectedKeyframeUuid}
