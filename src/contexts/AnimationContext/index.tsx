@@ -18,6 +18,7 @@ const _q = new THREE.Quaternion();
 export interface Animation {
   tracks: Track[];
   createKeyframe(trackUuid: string, timeSec: number): string | null;
+  eraseKeyframe(trackUuid: string, keyframeUuid: string): void;
   setKeyframeValues(
     trackUuid: string,
     keyframeUuid: string,
@@ -32,6 +33,7 @@ export interface Animation {
 export const AnimationContext = React.createContext<Animation>({
   tracks: [],
   createKeyframe: () => null,
+  eraseKeyframe: () => {},
   setKeyframeValues: () => {},
   startAtSec: 0,
   endAtSec: 1,
@@ -102,6 +104,33 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
     [tracks, setTracks]
   );
 
+  const eraseKeyframe = React.useCallback(
+    (trackUuid: string, keyframeUuid: string) => {
+      const track = tracks.find(e => trackUuid === e.uuid);
+      if (!track) return;
+
+      const index = track.uuids.findIndex(uuid => uuid === keyframeUuid);
+      if (index === -1) return;
+
+      const chunkSize = TrackChunkSize[track.type];
+
+      const nextUuids = [...track.uuids];
+      const nextTimes = [...track.times];
+      const nextValues = [...track.values];
+
+      nextUuids.splice(index, 1);
+      nextTimes.splice(index, 1);
+      nextValues.splice(index * chunkSize, chunkSize);
+
+      track.uuids = nextUuids;
+      track.times = nextTimes;
+      track.values = nextValues;
+
+      setTracks([...tracks]);
+    },
+    [tracks]
+  );
+
   const setKeyframeValues = React.useCallback(
     (trackUuid: string, keyframeUuid: string, values: number[]) => {
       const track = tracks.find(e => trackUuid === e.uuid);
@@ -137,6 +166,7 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
       value={{
         tracks,
         createKeyframe,
+        eraseKeyframe,
         setKeyframeValues,
         startAtSec: 0,
         endAtSec: durationSec,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TrackType, useTimeline } from '../../contexts';
+import { TrackType, useAnimation, useTimeline } from '../../contexts';
 import './TimelineKeyframeView.scss';
 
 interface TimelineKeyframeViewProps {
@@ -10,6 +10,7 @@ interface TimelineKeyframeViewProps {
 }
 
 export const TimelineKeyframeView: React.FC<TimelineKeyframeViewProps> = props => {
+  const animation = useAnimation();
   const timeline = useTimeline();
 
   const onClick = React.useCallback(
@@ -30,8 +31,10 @@ export const TimelineKeyframeView: React.FC<TimelineKeyframeViewProps> = props =
   const onDoubleClick = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
+
+      animation.eraseKeyframe(props.trackUuid, props.keyframeUuid);
     },
-    []
+    [props.trackUuid, props.keyframeUuid, animation.eraseKeyframe]
   );
 
   const active = React.useMemo(
