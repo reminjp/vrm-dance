@@ -49,15 +49,16 @@ export const SceneView: React.FC = () => {
     <div className="scene">
       <Canvas
         className="scene__canvas"
-        camera={{ position: [0, 1.5, -1.5], fov: 50, near: 0.001, far: 10 }}
+        camera={{ position: [0, 1, -5], fov: 30, near: 0.001, far: 100 }}
         pixelRatio={window.devicePixelRatio}
       >
         <OrbitControlsComponent
-          target={new THREE.Vector3(0, 1.125, 0)}
+          target={new THREE.Vector3(0, 1, 0)}
+          maxDistance={10}
           screenSpacePanning
         />
-        <ambientLight args={[0x404040]} />
-        <directionalLight args={[0xffffff]} position={[1, 1, 1]} />
+        <ambientLight args={[0x202020]} />
+        <directionalLight args={[0xffffff]} position={[-1, 1, -1]} />
         <gridHelper args={[10, 10, 0xe0e0e0, 0x808080]} />
         <axesHelper args={[5]} />
         {vrm && <primitive object={vrm.scene} />}
