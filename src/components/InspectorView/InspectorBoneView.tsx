@@ -12,7 +12,6 @@ const _e = new THREE.Euler();
 interface InspectorBoneViewProps {
   trackUuid: string;
   keyframeUuid: string;
-  time: number;
   values: number[];
 }
 
@@ -30,8 +29,6 @@ export const InspectorBoneView: React.FC<InspectorBoneViewProps> = props => {
 
   const onChange = React.useCallback(
     (x: number, y: number, z: number) => {
-      console.log(x, y, z);
-
       const nextValues = _q
         .setFromEuler(
           _e.set((x / 180) * Math.PI, (y / 180) * Math.PI, (z / 180) * Math.PI)
@@ -50,13 +47,13 @@ export const InspectorBoneView: React.FC<InspectorBoneViewProps> = props => {
   return (
     <div className="inspector-bone">
       <div className="inspector-bone__heading">Rotation</div>
-      <InspectorRowView label="x">
+      <InspectorRowView label="X">
         <InspectorNumberInput value={x} onChange={x => onChange(x, y, z)} />
       </InspectorRowView>
-      <InspectorRowView label="y">
+      <InspectorRowView label="Y">
         <InspectorNumberInput value={y} onChange={y => onChange(x, y, z)} />
       </InspectorRowView>
-      <InspectorRowView label="z">
+      <InspectorRowView label="Z">
         <InspectorNumberInput value={z} onChange={z => onChange(x, y, z)} />
       </InspectorRowView>
     </div>

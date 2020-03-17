@@ -6,6 +6,7 @@ import {
   useTimeline,
 } from '../../contexts';
 import { InspectorBoneView } from './InspectorBoneView';
+import { InspectorTimeView } from './InspectorTimeView';
 import './index.scss';
 
 export const InspectorView: React.FC = () => {
@@ -42,11 +43,17 @@ export const InspectorView: React.FC = () => {
 
   return (
     <div className="inspector">
+      {trackType !== undefined && (
+        <InspectorTimeView
+          trackUuid={timeline.selectedTrackUuid}
+          keyframeUuid={timeline.selectedKeyframeUuid}
+          time={time}
+        />
+      )}
       {trackType === TrackType.Bone && (
         <InspectorBoneView
           trackUuid={timeline.selectedTrackUuid}
           keyframeUuid={timeline.selectedKeyframeUuid}
-          time={time}
           values={values}
         />
       )}

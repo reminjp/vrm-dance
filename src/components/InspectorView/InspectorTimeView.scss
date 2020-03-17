@@ -1,0 +1,11 @@
+@import '../../variables';
+
+.inspector-time {
+  width: 100%;
+  padding: ($size-text / 2) $size-text;
+  box-sizing: border-box;
+
+  &__heading {
+    font-weight: bold;
+  }
+}

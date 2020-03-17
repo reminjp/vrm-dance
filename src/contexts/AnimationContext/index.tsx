@@ -19,6 +19,7 @@ export interface Animation {
   tracks: Track[];
   createKeyframe(trackUuid: string, timeSec: number): string | null;
   eraseKeyframe(trackUuid: string, keyframeUuid: string): void;
+  setKeyframeTime(trackUuid: string, keyframeUuid: string, time: number): void;
   setKeyframeValues(
     trackUuid: string,
     keyframeUuid: string,
@@ -34,6 +35,7 @@ export const AnimationContext = React.createContext<Animation>({
   tracks: [],
   createKeyframe: () => null,
   eraseKeyframe: () => {},
+  setKeyframeTime: () => {},
   setKeyframeValues: () => {},
   startAtSec: 0,
   endAtSec: 1,
@@ -131,6 +133,73 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
     [tracks]
   );
 
+  const setKeyframeTime = React.useCallback(
+    (trackUuid: string, keyframeUuid: string, time: number) => {
+      const track = tracks.find(e => trackUuid === e.uuid);
+      if (!track) return;
+
+      const index = track.uuids.findIndex(uuid => uuid === keyframeUuid);
+      if (index === -1) return;
+
+      const nextIndex = lowerBound(track.times, time);
+
+      const chunkSize = TrackChunkSize[track.type];
+
+      if (nextIndex === index) {
+        const nextTimes = [...track.times];
+        nextTimes[index] = time;
+        track.times = nextTimes;
+      } else if (nextIndex < index) {
+        const nextUuids = [
+          ...track.uuids.slice(0, nextIndex),
+          track.uuids[index],
+          ...track.uuids.slice(nextIndex, index),
+          ...track.uuids.slice(index + 1),
+        ];
+        const nextTimes = [
+          ...track.times.slice(0, nextIndex),
+          time,
+          ...track.times.slice(nextIndex, index),
+          ...track.times.slice(index + 1),
+        ];
+        const nextValues = [
+          ...track.values.slice(0, nextIndex * chunkSize),
+          ...track.values.slice(index * chunkSize, (index + 1) * chunkSize),
+          ...track.values.slice(nextIndex * chunkSize, index * chunkSize),
+          ...track.values.slice((index + 1) * chunkSize),
+        ];
+        track.uuids = nextUuids;
+        track.times = nextTimes;
+        track.values = nextValues;
+      } else if (nextIndex > index) {
+        const nextUuids = [
+          ...track.uuids.slice(0, index),
+          ...track.uuids.slice(index + 1, nextIndex),
+          track.uuids[index],
+          ...track.uuids.slice(nextIndex),
+        ];
+        const nextTimes = [
+          ...track.times.slice(0, index),
+          ...track.times.slice(index + 1, nextIndex),
+          time,
+          ...track.times.slice(nextIndex),
+        ];
+        const nextValues = [
+          ...track.values.slice(0, index * chunkSize),
+          ...track.values.slice((index + 1) * chunkSize, nextIndex * chunkSize),
+          ...track.values.slice(index * chunkSize, (index + 1) * chunkSize),
+          ...track.values.slice(nextIndex * chunkSize),
+        ];
+        track.uuids = nextUuids;
+        track.times = nextTimes;
+        track.values = nextValues;
+      }
+
+      setTracks([...tracks]);
+    },
+    [tracks, setTracks]
+  );
+
   const setKeyframeValues = React.useCallback(
     (trackUuid: string, keyframeUuid: string, values: number[]) => {
       const track = tracks.find(e => trackUuid === e.uuid);
@@ -167,6 +236,7 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = props => {
         tracks,
         createKeyframe,
         eraseKeyframe,
+        setKeyframeTime,
         setKeyframeValues,
         startAtSec: 0,
         endAtSec: durationSec,
