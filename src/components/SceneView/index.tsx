@@ -12,7 +12,7 @@ import { OrbitControlsComponent } from './OrbitControlsComponent';
 import { useVrm } from './useVrm';
 import './index.scss';
 
-const defaultVrmUrl = require('../../default.vrm').default;
+const defaultVrmUrl = require('../../three-vrm-girl.vrm').default;
 
 export const SceneView: React.FC = () => {
   const animation = useAnimation();
