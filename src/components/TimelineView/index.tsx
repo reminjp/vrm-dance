@@ -7,6 +7,7 @@ import {
 } from '../../constants';
 import { useAnimation } from '../../contexts';
 import { TimelineBackgroundView } from './TimelineBackgroundView';
+import { TimelinePlayerView } from './TimelinePlayerView';
 import { TimelineRulerView } from './TimelineRulerView';
 import { TimelineScaleView } from './TimelineScaleView';
 import { TimelineTrackView } from './TimelineTrackView';
@@ -63,7 +64,9 @@ export const TimelineView: React.FC = () => {
             />
           ))}
         </div>
-        <div className="timeline__footer-side"></div>
+        <div className="timeline__footer-side">
+          <TimelinePlayerView />
+        </div>
         <div className="timeline__footer-main">
           <TimelineScaleView />
         </div>

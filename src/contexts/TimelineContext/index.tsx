@@ -12,6 +12,8 @@ export interface Timeline {
   setSelectedTrackUuid(value: string): void;
   selectedKeyframeUuid?: string;
   setSelectedKeyframeUuid(value: string): void;
+  playing: boolean;
+  setPlaying(value: boolean): void;
 }
 
 export const TimelineContext = React.createContext<Timeline>({
@@ -24,6 +26,8 @@ export const TimelineContext = React.createContext<Timeline>({
   setCursorSec: () => {},
   setSelectedTrackUuid: () => {},
   setSelectedKeyframeUuid: () => {},
+  playing: false,
+  setPlaying: () => {},
 });
 
 export function useTimeline(): Timeline {
@@ -50,6 +54,8 @@ export const TimelineProvider: React.FC<TimelineProviderProps> = props => {
     string
   >();
 
+  const [playing, setPlaying] = React.useState(false);
+
   return (
     <TimelineContext.Provider
       value={{
@@ -64,6 +70,8 @@ export const TimelineProvider: React.FC<TimelineProviderProps> = props => {
         setSelectedTrackUuid,
         selectedKeyframeUuid,
         setSelectedKeyframeUuid,
+        playing,
+        setPlaying,
       }}
     >
       {props.children}

@@ -10,6 +10,7 @@ import {
 } from '../../contexts';
 import { OrbitControlsComponent } from './OrbitControlsComponent';
 import { useVrm } from './useVrm';
+import { VrmComponent } from './VrmComponent';
 import './index.scss';
 
 const defaultVrmUrl = require('../../three-vrm-girl.vrm').default;
@@ -45,6 +46,27 @@ export const SceneView: React.FC = () => {
     vrm.humanoid.setPose(pose);
   }, [animation.tracks, timeline.cursorSec, vrm]);
 
+  const onFrame = React.useCallback(
+    (delta: number) => {
+      if (!timeline.playing) return;
+
+      // TODO: calculate nextCursorSec from the time when start playing
+      let nextCursorSec = timeline.cursorSec + delta;
+      while (nextCursorSec > animation.endAtSec) {
+        nextCursorSec -= animation.endAtSec;
+        nextCursorSec += animation.startAtSec;
+      }
+      timeline.setCursorSec(nextCursorSec);
+    },
+    [
+      animation.startAtSec,
+      animation.endAtSec,
+      timeline.cursorSec,
+      timeline.setCursorSec,
+      timeline.playing,
+    ]
+  );
+
   return (
     <div className="scene">
       <Canvas
@@ -61,7 +83,7 @@ export const SceneView: React.FC = () => {
         <directionalLight args={[0xffffff]} position={[-1, 1, -1]} />
         <gridHelper args={[10, 10, 0xe0e0e0, 0x808080]} />
         <axesHelper args={[5]} />
-        {vrm && <primitive object={vrm.scene} />}
+        <VrmComponent vrm={vrm} onFrame={onFrame} />
       </Canvas>
     </div>
   );
